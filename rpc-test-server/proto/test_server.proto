@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "./../rpc-test-server/pb";
+
+service TestServer {
+  rpc TestSyncHello(ReqTest) returns (RplTest);
+}
+
+message ReqTest {
+  string Name = 1;
+}
+
+message RplTest {
+  string Message = 2;
+}
