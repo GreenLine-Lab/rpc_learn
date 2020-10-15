@@ -5,6 +5,7 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"os"
 	"rpc/rpc-test-server/pb"
 	"rpc/rpc-test-server/server"
 )
@@ -34,4 +35,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func isDebug() bool {
+	return dev || os.Getenv("DEBUG") == "true"
 }
