@@ -6,8 +6,8 @@ import (
 	"log"
 	"net"
 	"os"
+	"rpc/rpc-test-server/api"
 	"rpc/rpc-test-server/pb"
-	"rpc/rpc-test-server/server"
 )
 
 var dev bool
@@ -27,7 +27,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	srv := server.NewTestServer()
+	srv := api.NewTestServer()
 	pb.RegisterTestServerServer(grpcServer, &srv)
 
 	log.Println("Listen ... " + port + " port")
