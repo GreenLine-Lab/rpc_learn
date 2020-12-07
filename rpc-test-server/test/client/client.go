@@ -10,20 +10,13 @@ type TestClient struct {
 	Client     pb.TestServerClient
 }
 
-func (c *TestClient) NewConnection(url string) error {
+func (c *TestClient) InitClient(url string) error {
 	var err error
 	c.Connection, err = grpc.Dial(url, grpc.WithInsecure())
 	if err != nil {
 		return err
 	}
 
-	return nil
-}
-
-func (c *TestClient) NewClient() {
 	c.Client = pb.NewTestServerClient(c.Connection)
-}
-
-func NewTestClient() TestClient {
-	return TestClient{}
+	return nil
 }

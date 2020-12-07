@@ -13,13 +13,12 @@ func TestHelloSync(t *testing.T) {
 		Name: "Vladimir",
 	}
 
-	c := NewTestClient()
-	if err := c.NewConnection("localhost:9050"); err != nil {
+	c := TestClient{}
+	if err := c.InitClient("localhost:9050"); err != nil {
 		t.Fatalf("NewConnection: %s", err.Error())
 	}
 	defer c.Connection.Close()
 
-	c.NewClient()
 	rpl, err := c.Client.TestSyncHello(context.Background(), &req)
 	if err != nil {
 		t.Fatalf("TestSyncHello return: %s", err.Error())
