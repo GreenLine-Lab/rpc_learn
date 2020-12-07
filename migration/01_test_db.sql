@@ -132,13 +132,6 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users_id_uindex; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX users_id_uindex ON public.users USING btree (id);
-
-
---
 -- Name: users_login_uindex; Type: INDEX; Schema: public; Owner: postgres
 --
 

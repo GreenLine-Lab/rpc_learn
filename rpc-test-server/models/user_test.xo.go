@@ -47,16 +47,16 @@ func (u *User) Insert(db XODB) error {
 		return errors.New("insert failed: already exists")
 	}
 
-	// sql insert query, primary key must be provided
+	// sql insert query, primary key provided by sequence
 	const sqlstr = `INSERT INTO public.users (` +
-		`id, uuid, nick_name, login, password, rule, created_at, modified_at, blocked_at, blocked` +
+		`uuid, nick_name, login, password, rule, created_at, modified_at, blocked_at, blocked` +
 		`) VALUES (` +
-		`$1, $2, $3, $4, $5, $6, $7, $8, $9, $10` +
-		`)`
+		`$1, $2, $3, $4, $5, $6, $7, $8, $9` +
+		`) RETURNING id`
 
 	// run query
-	XOLog(sqlstr, u.ID, u.UUID, u.NickName, u.Login, u.Password, u.Rule, u.CreatedAt, u.ModifiedAt, u.BlockedAt, u.Blocked)
-	err = db.QueryRow(sqlstr, u.ID, u.UUID, u.NickName, u.Login, u.Password, u.Rule, u.CreatedAt, u.ModifiedAt, u.BlockedAt, u.Blocked).Scan(&u.ID)
+	XOLog(sqlstr, u.UUID, u.NickName, u.Login, u.Password, u.Rule, u.CreatedAt, u.ModifiedAt, u.BlockedAt, u.Blocked)
+	err = db.QueryRow(sqlstr, u.UUID, u.NickName, u.Login, u.Password, u.Rule, u.CreatedAt, u.ModifiedAt, u.BlockedAt, u.Blocked).Scan(&u.ID)
 	if err != nil {
 		return err
 	}
@@ -166,32 +166,6 @@ func (u *User) Delete(db XODB) error {
 	u._deleted = true
 
 	return nil
-}
-
-// UserByID retrieves a row from 'public.users' as a User.
-//
-// Generated from index 'users_id_uindex'.
-func UserByID(db XODB, id int64) (*User, error) {
-	var err error
-
-	// sql query
-	const sqlstr = `SELECT ` +
-		`id, uuid, nick_name, login, password, rule, created_at, modified_at, blocked_at, blocked ` +
-		`FROM public.users ` +
-		`WHERE id = $1`
-
-	// run query
-	XOLog(sqlstr, id)
-	u := User{
-		_exists: true,
-	}
-
-	err = db.QueryRow(sqlstr, id).Scan(&u.ID, &u.UUID, &u.NickName, &u.Login, &u.Password, &u.Rule, &u.CreatedAt, &u.ModifiedAt, &u.BlockedAt, &u.Blocked)
-	if err != nil {
-		return nil, err
-	}
-
-	return &u, nil
 }
 
 // UserByLogin retrieves a row from 'public.users' as a User.

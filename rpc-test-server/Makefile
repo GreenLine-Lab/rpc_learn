@@ -6,9 +6,9 @@ dump:
 
 xo:
 	xo \
-		pgsql://postgres:postgres@localhost/test \
-		-int32-type int64 -uint32-type uint64 \
-		-o ${GOPATH}/src/rpc/rpc-test-server/models
+		pgsql://postgres:postgres@localhost/test?sslmode=disable \
+		-int32-type int64 -uint32-type uint64 -f _test.xo.go \
+		-o models
 
 grpc-test-server:
 	protoc \
