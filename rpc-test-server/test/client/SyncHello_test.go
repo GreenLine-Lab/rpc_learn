@@ -14,15 +14,15 @@ func TestHelloSync(t *testing.T) {
 	}
 
 	c := TestClient{}
-	if err := c.InitClient("localhost:9050"); err != nil {
-		t.Fatalf("NewConnection: %s", err.Error())
-	}
-	defer c.Connection.Close()
+	defer c.CloseConnection()
 
-	rpl, err := c.Client.TestSyncHello(context.Background(), &req)
+	c.mux.Lock()
+	rpl, err := c.Client().TestSyncHello(context.Background(), &req)
+	c.mux.Unlock()
+
 	if err != nil {
 		t.Fatalf("TestSyncHello return: %s", err.Error())
 	}
 
-	fmt.Println(rpl.Message)
+	fmt.Printf("Rpl: %+v\n", rpl)
 }
