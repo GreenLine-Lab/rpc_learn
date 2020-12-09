@@ -1,7 +1,7 @@
 dump:
 	pg_dump \
 		--create --schema-only \
-		--file="${GOPATH}/src/rpc/migration/01_test_db.sql" \
+		--file="${GOPATH}/src/rpc-learn/migration/01_test_db.sql" \
 		--dbname="test" --host="localhost" --port="5432" --username="postgres"
 
 xo:
@@ -12,6 +12,6 @@ xo:
 
 grpc-test-server:
 	protoc \
-		-I="${GOPATH}/src/rpc/rpc-test-server/proto" \
+		-I="${GOPATH}/src/rpc-learn/rpc-test-server/proto" \
 		--go_out=plugins=grpc:. \
 		test_server.proto

@@ -16,6 +16,16 @@ type Private struct {
 	ecdsa *ecdsa.PrivateKey
 }
 
+func (p *Private) Public() *Public {
+	pub := Public{}
+
+	if p.rsa != nil {
+		pub.rsa = p.rsa.Public().(*rsa.PublicKey)
+	}
+
+	return &pub
+}
+
 func (p *Private) Sign(data interface{}) string {
 
 	if p.rsa != nil {

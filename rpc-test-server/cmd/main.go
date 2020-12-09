@@ -6,8 +6,8 @@ import (
 	"log"
 	"net"
 	"os"
-	"rpc/rpc-test-server/api"
-	"rpc/rpc-test-server/pb"
+	"rpc-learn/rpc-test-server/api"
+	"rpc-learn/rpc-test-server/pb"
 )
 
 var dev bool

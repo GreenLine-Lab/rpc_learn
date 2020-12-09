@@ -2,7 +2,7 @@ package test
 
 import (
 	"google.golang.org/grpc"
-	"rpc/rpc-test-server/pb"
+	"rpc-learn/rpc-test-server/pb"
 	"sync"
 )
 

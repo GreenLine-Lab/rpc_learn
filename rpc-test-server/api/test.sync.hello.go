@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"google.golang.org/grpc"
 	"log"
-	"rpc/rpc-test-server/pb"
+	"rpc-learn/rpc-test-server/pb"
 )
 
 func (srv *TestServer) TestSyncHello(ctx context.Context, req *pb.ReqTest) (*pb.RplTest, error) {
