@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"rpc-learn/rpc-test-server/pb"
+	"sync"
 	"testing"
 )
 
@@ -13,13 +14,23 @@ func TestHelloSync(t *testing.T) {
 		Name: "Vladimir",
 	}
 
-	c := TestClient{}
+	c := Client{}
+	c.Client()
 	defer c.CloseConnection()
+	var wg sync.WaitGroup
 
-	rpl, err := c.Client().TestSyncHello(context.Background(), &req)
-	if err != nil {
-		t.Fatalf("TestSyncHello return: %s", err.Error())
+	for i := 1; i < 5; i++ {
+		wg.Add(1)
+		go func(wg *sync.WaitGroup) {
+			rpl, err := c.Client().TestSyncHello(context.Background(), &req)
+			if err != nil {
+				t.Fatalf("TestSyncHello return: %s", err.Error())
+			}
+
+			fmt.Printf("Rpl: %+v", rpl)
+			wg.Done()
+		}(&wg)
 	}
 
-	fmt.Printf("Rpl: %+v\n", rpl)
+	wg.Wait()
 }

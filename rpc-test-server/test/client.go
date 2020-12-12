@@ -2,22 +2,22 @@ package test
 
 import (
 	"google.golang.org/grpc"
+	"log"
 	"rpc-learn/rpc-test-server/pb"
-	"sync"
 )
 
 const defaultUrl = ":9050"
 
-type TestClient struct {
-	mux        sync.Mutex
+type Client struct {
 	connection *grpc.ClientConn
 	url        string
 }
 
-func (c *TestClient) Client() pb.TestServerClient {
+func (c *Client) Client() pb.TestServerClient {
 
 	if c.connection != nil {
 		if err := c.connection.Close(); err != nil {
+			log.Printf("Conn close: %s", err.Error())
 			return nil
 		}
 	} else {
@@ -37,7 +37,7 @@ func (c *TestClient) Client() pb.TestServerClient {
 	return pb.NewTestServerClient(c.connection)
 }
 
-func (c *TestClient) SetUrl(url ...string) {
+func (c *Client) SetUrl(url ...string) {
 	c.url = defaultUrl
 
 	if url != nil {
@@ -47,7 +47,7 @@ func (c *TestClient) SetUrl(url ...string) {
 	}
 }
 
-func (c *TestClient) CloseConnection() {
+func (c *Client) CloseConnection() {
 	if c.connection != nil {
 		_ = c.connection.Close()
 	}
