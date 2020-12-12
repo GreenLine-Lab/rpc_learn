@@ -12,6 +12,6 @@ xo:
 
 grpc-test-server:
 	protoc \
-		-I="${GOPATH}/src/rpc-learn/rpc-test-server/proto" \
+		-I="${GOPATH}/rpc-learn/rpc-test-server/proto" \
 		--go_out=plugins=grpc:. \
 		test_server.proto

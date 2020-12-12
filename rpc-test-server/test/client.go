@@ -1,27 +1,42 @@
 package test
 
 import (
+	"github.com/satori/go.uuid"
 	"google.golang.org/grpc"
-	"log"
+	"google.golang.org/grpc/connectivity"
 	"rpc-learn/rpc-test-server/pb"
 )
 
 const defaultUrl = ":9050"
 
 type Client struct {
-	connection *grpc.ClientConn
-	url        string
+	conn    *grpc.ClientConn
+	url     string
+	traceId string
+}
+
+func NewRpcTestServerClient(traceId ...string) *Client {
+	client := Client{}
+
+	if traceId != nil {
+		if len(traceId[0]) != 0 {
+			client.traceId = traceId[0]
+		}
+	} else {
+		client.traceId = uuid.NewV4().String()
+	}
+
+	return &client
 }
 
 func (c *Client) Client() pb.TestServerClient {
 
-	if c.connection != nil {
-		if err := c.connection.Close(); err != nil {
-			log.Printf("Conn close: %s", err.Error())
-			return nil
+	if c.conn != nil {
+		if c.conn.GetState() == connectivity.Ready {
+			c.ConnClose()
 		}
 	} else {
-		c.connection = &grpc.ClientConn{}
+		c.conn = &grpc.ClientConn{}
 	}
 
 	if len(c.url) == 0 {
@@ -29,12 +44,18 @@ func (c *Client) Client() pb.TestServerClient {
 	}
 
 	var err error
-	c.connection, err = grpc.Dial(c.url, grpc.WithInsecure())
+	c.conn, err = grpc.Dial(c.url, grpc.WithInsecure())
 	if err != nil {
 		return nil
 	}
 
-	return pb.NewTestServerClient(c.connection)
+	return pb.NewTestServerClient(c.conn)
+}
+
+func (c *Client) ConnClose() {
+	if c.conn != nil {
+		_ = c.conn.Close()
+	}
 }
 
 func (c *Client) SetUrl(url ...string) {
@@ -47,8 +68,6 @@ func (c *Client) SetUrl(url ...string) {
 	}
 }
 
-func (c *Client) CloseConnection() {
-	if c.connection != nil {
-		_ = c.connection.Close()
-	}
+func (c *Client) GetTraceId() string {
+	return c.traceId
 }

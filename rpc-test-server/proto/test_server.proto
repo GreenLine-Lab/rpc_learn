@@ -4,13 +4,22 @@ package proto;
 option go_package = "./../rpc-test-server/pb";
 
 service TestServer {
-  rpc TestSyncHello(ReqTest) returns (RplTest);
+  rpc TestSeyHello(ReqTestSeyHello) returns (RplTestSeyHello);
+  rpc TestBdUserCreate(ReqTestDbUserCreate) returns (RplTestServer);
 }
 
-message ReqTest {
+message RplTestServer {}
+
+message ReqTestSeyHello {
   string Name = 1;
 }
 
-message RplTest {
+message RplTestSeyHello {
   string Message = 2;
+}
+
+message ReqTestDbUserCreate {
+  string NickName = 1;
+  string Login = 2;
+  string Password = 3;
 }
