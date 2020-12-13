@@ -6,8 +6,8 @@ import (
 )
 
 type EnvConfig struct {
-	ServiceName   string
-	ServiceDevMod bool `env:"DEV_MOD" envDefault:"false"`
+	ServiceName   string `env:"NAME"`
+	ServiceDevMod bool   `env:"DEV_MOD" envDefault:"false"`
 
 	ServiceHost string `env:"HOST" envDefault:"localhost"`
 	ServicePort string `env:"PORT"`
@@ -28,7 +28,7 @@ func (cfg *EnvConfig) ConnectDB() (*sql.DB, error) {
 			"user=%s "+
 			"password=%s "+
 			"dbname=%s sslmode=disable",
-			cfg.SqlHost, cfg.SqlHost, cfg.SqlUser, cfg.SqlPassword, cfg.SqlDatabase))
+			cfg.SqlHost, cfg.SqlPort, cfg.SqlUser, cfg.SqlPassword, cfg.SqlDatabase))
 
 	if err != nil {
 		return nil, err

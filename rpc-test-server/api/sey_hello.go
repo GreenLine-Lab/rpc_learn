@@ -3,25 +3,16 @@ package api
 import (
 	"context"
 	"fmt"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/metadata"
-	"log"
+	"rpc-learn/lib/zlog"
 	"rpc-learn/rpc-test-server/pb"
 )
 
 func (srv *TestServer) TestSeyHello(ctx context.Context, req *pb.ReqTestSeyHello) (*pb.RplTestSeyHello, error) {
 	rpl := &pb.RplTestSeyHello{}
+	log := zlog.ApiLogger(srv.logger, ctx)
 
-	method, _ := grpc.Method(ctx)
-	md, ok := metadata.FromIncomingContext(ctx)
-	if ok {
-		var traceId string
-		if traceIdHeader := md.Get("Trace-Id"); traceIdHeader != nil {
-			traceId = traceIdHeader[0]
-		}
-
-		log.Printf("%s [%s]: New request", method, traceId)
-	}
+	log.Trace().Msg("Start processing")
+	defer log.Trace().Msg("Finish processing")
 
 	rpl.Message = fmt.Sprintf("Hello, %s!", req.Name)
 
