@@ -16,10 +16,23 @@ func main() {
 
 	cfg := lib.EnvConfig{
 		ServicePort: "9050",
+		SqlDatabase: "test",
 	}
+
 	if err := env.Parse(&cfg); err != nil {
 		panic(err.Error())
 	}
+
+	srv, err := api.NewTestServer(&cfg)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer func() {
+		if err := srv.DB().Close(); err != nil {
+
+		}
+	}()
 
 	lis, err := net.Listen("tcp", net.JoinHostPort(cfg.ServiceHost, cfg.ServicePort))
 	if err != nil {
@@ -27,8 +40,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	srv := api.NewTestServer()
-	pb.RegisterTestServerServer(grpcServer, &srv)
+	pb.RegisterTestServerServer(grpcServer, srv)
 
 	log.Println("Listen ... " + cfg.ServicePort + " port")
 	err = grpcServer.Serve(lis)
