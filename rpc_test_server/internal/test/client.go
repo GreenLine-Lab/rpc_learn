@@ -4,13 +4,15 @@ import (
 	"github.com/satori/go.uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
-	"rpc-learn/rpc-test-server/pb"
+	"google.golang.org/grpc/credentials"
+	"rpc-learn/rpc_test_server/pb"
 )
 
 const defaultUrl = ":9050"
 
 type Client struct {
 	conn    *grpc.ClientConn
+	cert    credentials.TransportCredentials
 	url     string
 	traceId string
 }
@@ -24,6 +26,12 @@ func NewRpcTestServerClient(traceId ...string) *Client {
 		}
 	} else {
 		client.traceId = uuid.NewV4().String()
+	}
+
+	var err error
+	client.cert, err = credentials.NewClientTLSFromFile("C:\\Users\\alion\\GolandProjects\\rpc-learn\\rpc_test_server\\internal\\crypto\\server.csr", "")
+	if err != nil {
+		return nil
 	}
 
 	return &client
@@ -44,7 +52,7 @@ func (c *Client) Client() pb.TestServerClient {
 	}
 
 	var err error
-	c.conn, err = grpc.Dial(c.url, grpc.WithInsecure())
+	c.conn, err = grpc.Dial(c.url, grpc.WithTransportCredentials(c.cert))
 	if err != nil {
 		return nil
 	}

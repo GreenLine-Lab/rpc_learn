@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"rpc-learn/lib/zlog"
-	"rpc-learn/rpc-test-server/pb"
+	"rpc-learn/rpc_test_server/pb"
 )
 
 func (srv *TestServer) TestSeyHello(ctx context.Context, req *pb.ReqTestSeyHello) (*pb.RplTestSeyHello, error) {

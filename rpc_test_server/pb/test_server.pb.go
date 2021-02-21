@@ -246,12 +246,12 @@ var file_test_server_proto_rawDesc = []byte{
 	0x6c, 0x6c, 0x6f, 0x12, 0x16, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x52, 0x65, 0x71, 0x54,
 	0x65, 0x73, 0x74, 0x53, 0x65, 0x79, 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x1a, 0x16, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x2e, 0x52, 0x70, 0x6c, 0x54, 0x65, 0x73, 0x74, 0x53, 0x65, 0x79, 0x48, 0x65,
-	0x6c, 0x6c, 0x6f, 0x12, 0x44, 0x0a, 0x10, 0x54, 0x65, 0x73, 0x74, 0x42, 0x64, 0x55, 0x73, 0x65,
+	0x6c, 0x6c, 0x6f, 0x12, 0x44, 0x0a, 0x10, 0x54, 0x65, 0x73, 0x74, 0x44, 0x62, 0x55, 0x73, 0x65,
 	0x72, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x1a, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e,
 	0x52, 0x65, 0x71, 0x54, 0x65, 0x73, 0x74, 0x44, 0x62, 0x55, 0x73, 0x65, 0x72, 0x43, 0x72, 0x65,
 	0x61, 0x74, 0x65, 0x1a, 0x14, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x52, 0x70, 0x6c, 0x54,
 	0x65, 0x73, 0x74, 0x53, 0x65, 0x72, 0x76, 0x65, 0x72, 0x42, 0x19, 0x5a, 0x17, 0x2e, 0x2f, 0x2e,
-	0x2e, 0x2f, 0x72, 0x70, 0x63, 0x2d, 0x74, 0x65, 0x73, 0x74, 0x2d, 0x73, 0x65, 0x72, 0x76, 0x65,
+	0x2e, 0x2f, 0x72, 0x70, 0x63, 0x5f, 0x74, 0x65, 0x73, 0x74, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x65,
 	0x72, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
@@ -276,9 +276,9 @@ var file_test_server_proto_goTypes = []interface{}{
 }
 var file_test_server_proto_depIdxs = []int32{
 	1, // 0: proto.TestServer.TestSeyHello:input_type -> proto.ReqTestSeyHello
-	3, // 1: proto.TestServer.TestBdUserCreate:input_type -> proto.ReqTestDbUserCreate
+	3, // 1: proto.TestServer.TestDbUserCreate:input_type -> proto.ReqTestDbUserCreate
 	2, // 2: proto.TestServer.TestSeyHello:output_type -> proto.RplTestSeyHello
-	0, // 3: proto.TestServer.TestBdUserCreate:output_type -> proto.RplTestServer
+	0, // 3: proto.TestServer.TestDbUserCreate:output_type -> proto.RplTestServer
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -374,7 +374,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type TestServerClient interface {
 	TestSeyHello(ctx context.Context, in *ReqTestSeyHello, opts ...grpc.CallOption) (*RplTestSeyHello, error)
-	TestBdUserCreate(ctx context.Context, in *ReqTestDbUserCreate, opts ...grpc.CallOption) (*RplTestServer, error)
+	TestDbUserCreate(ctx context.Context, in *ReqTestDbUserCreate, opts ...grpc.CallOption) (*RplTestServer, error)
 }
 
 type testServerClient struct {
@@ -394,9 +394,9 @@ func (c *testServerClient) TestSeyHello(ctx context.Context, in *ReqTestSeyHello
 	return out, nil
 }
 
-func (c *testServerClient) TestBdUserCreate(ctx context.Context, in *ReqTestDbUserCreate, opts ...grpc.CallOption) (*RplTestServer, error) {
+func (c *testServerClient) TestDbUserCreate(ctx context.Context, in *ReqTestDbUserCreate, opts ...grpc.CallOption) (*RplTestServer, error) {
 	out := new(RplTestServer)
-	err := c.cc.Invoke(ctx, "/proto.TestServer/TestBdUserCreate", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.TestServer/TestDbUserCreate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -406,7 +406,7 @@ func (c *testServerClient) TestBdUserCreate(ctx context.Context, in *ReqTestDbUs
 // TestServerServer is the server API for TestServer service.
 type TestServerServer interface {
 	TestSeyHello(context.Context, *ReqTestSeyHello) (*RplTestSeyHello, error)
-	TestBdUserCreate(context.Context, *ReqTestDbUserCreate) (*RplTestServer, error)
+	TestDbUserCreate(context.Context, *ReqTestDbUserCreate) (*RplTestServer, error)
 }
 
 // UnimplementedTestServerServer can be embedded to have forward compatible implementations.
@@ -416,8 +416,8 @@ type UnimplementedTestServerServer struct {
 func (*UnimplementedTestServerServer) TestSeyHello(context.Context, *ReqTestSeyHello) (*RplTestSeyHello, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TestSeyHello not implemented")
 }
-func (*UnimplementedTestServerServer) TestBdUserCreate(context.Context, *ReqTestDbUserCreate) (*RplTestServer, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TestBdUserCreate not implemented")
+func (*UnimplementedTestServerServer) TestDbUserCreate(context.Context, *ReqTestDbUserCreate) (*RplTestServer, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TestDbUserCreate not implemented")
 }
 
 func RegisterTestServerServer(s *grpc.Server, srv TestServerServer) {
@@ -442,20 +442,20 @@ func _TestServer_TestSeyHello_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TestServer_TestBdUserCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TestServer_TestDbUserCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReqTestDbUserCreate)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TestServerServer).TestBdUserCreate(ctx, in)
+		return srv.(TestServerServer).TestDbUserCreate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.TestServer/TestBdUserCreate",
+		FullMethod: "/proto.TestServer/TestDbUserCreate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestServerServer).TestBdUserCreate(ctx, req.(*ReqTestDbUserCreate))
+		return srv.(TestServerServer).TestDbUserCreate(ctx, req.(*ReqTestDbUserCreate))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -469,8 +469,8 @@ var _TestServer_serviceDesc = grpc.ServiceDesc{
 			Handler:    _TestServer_TestSeyHello_Handler,
 		},
 		{
-			MethodName: "TestBdUserCreate",
-			Handler:    _TestServer_TestBdUserCreate_Handler,
+			MethodName: "TestDbUserCreate",
+			Handler:    _TestServer_TestDbUserCreate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,14 +1,16 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"github.com/caarlos0/env/v6"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"net"
 	"rpc-learn/lib"
 	"rpc-learn/lib/zlog"
-	"rpc-learn/rpc-test-server/api"
-	"rpc-learn/rpc-test-server/pb"
+	"rpc-learn/rpc_test_server/api"
+	"rpc-learn/rpc_test_server/pb"
 )
 
 func main() {
@@ -42,7 +44,8 @@ func main() {
 		log.Fatal().Msgf("Unable create new listener: %s", err.Error())
 	}
 
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(grpc.Creds(credentials.NewServerTLSFromCert(&certs)))
+
 	pb.RegisterTestServerServer(grpcServer, srv)
 
 	log.Info().Msgf("Listen %s ...", net.JoinHostPort(cfg.ServiceHost, cfg.ServicePort))

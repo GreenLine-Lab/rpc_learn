@@ -1,11 +1,11 @@
 syntax = "proto3";
 
 package proto;
-option go_package = "./../rpc-test-server/pb";
+option go_package = "./../rpc_test_server/pb";
 
 service TestServer {
-  rpc TestSeyHello(ReqTestSeyHello) returns (RplTestSeyHello);
-  rpc TestBdUserCreate(ReqTestDbUserCreate) returns (RplTestServer);
+  rpc TestSeyHello            (ReqTestSeyHello)            returns (RplTestSeyHello);
+  rpc TestDbUserCreate        (ReqTestDbUserCreate)        returns (RplTestServer);
 }
 
 message RplTestServer {}
