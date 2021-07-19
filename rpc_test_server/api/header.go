@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
-	"rpc-learn/lib"
-	"rpc-learn/lib/zlog"
+	"rpc_learn/lib"
+	"rpc_learn/lib/zlog"
 )
 
 type TestServer struct {

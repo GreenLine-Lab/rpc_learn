@@ -2,9 +2,9 @@ package api
 
 import (
 	"context"
-	"rpc-learn/rpc_test_server/pb"
+	pb2 "rpc_learn/rpc_test_server/pkg/pb"
 )
 
-func (srv *TestServer) TestDbUserCreate(ctx context.Context, req *pb.ReqTestDbUserCreate) (*pb.RplTestServer, error) {
+func (srv *TestServer) TestDbUserCreate(ctx context.Context, req *pb2.ReqTestDbUserCreate) (*pb2.RplTestServer, error) {
 	return nil, nil
 }

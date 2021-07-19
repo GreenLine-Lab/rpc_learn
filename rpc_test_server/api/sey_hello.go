@@ -3,12 +3,12 @@ package api
 import (
 	"context"
 	"fmt"
-	"rpc-learn/lib/zlog"
-	"rpc-learn/rpc_test_server/pb"
+	"rpc_learn/lib/zlog"
+	pb2 "rpc_learn/rpc_test_server/pkg/pb"
 )
 
-func (srv *TestServer) TestSeyHello(ctx context.Context, req *pb.ReqTestSeyHello) (*pb.RplTestSeyHello, error) {
-	rpl := &pb.RplTestSeyHello{}
+func (srv *TestServer) TestSeyHello(ctx context.Context, req *pb2.ReqTestSeyHello) (*pb2.RplTestSeyHello, error) {
+	rpl := &pb2.RplTestSeyHello{}
 	log := zlog.ApiLogger(srv.logger, ctx)
 
 	log.Trace().Msg("Start processing")

@@ -5,7 +5,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials"
-	"rpc-learn/rpc_test_server/pb"
+	pb2 "rpc_learn/rpc_test_server/pkg/pb"
 )
 
 const defaultUrl = ":9050"
@@ -29,7 +29,7 @@ func NewRpcTestServerClient(traceId ...string) *Client {
 	}
 
 	var err error
-	client.cert, err = credentials.NewClientTLSFromFile("C:\\Users\\alion\\GolandProjects\\rpc-learn\\rpc_test_server\\internal\\crypto\\server.csr", "")
+	client.cert, err = credentials.NewClientTLSFromFile("C:\\Users\\alion\\GolandProjects\\rpc_learn\\rpc_test_server\\internal\\crypto\\server.csr", "")
 	if err != nil {
 		return nil
 	}
@@ -37,7 +37,7 @@ func NewRpcTestServerClient(traceId ...string) *Client {
 	return &client
 }
 
-func (c *Client) Client() pb.TestServerClient {
+func (c *Client) Client() pb2.TestServerClient {
 
 	if c.conn != nil {
 		if c.conn.GetState() == connectivity.Ready {
@@ -57,7 +57,7 @@ func (c *Client) Client() pb.TestServerClient {
 		return nil
 	}
 
-	return pb.NewTestServerClient(c.conn)
+	return pb2.NewTestServerClient(c.conn)
 }
 
 func (c *Client) ConnClose() {

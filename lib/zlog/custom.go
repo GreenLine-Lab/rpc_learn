@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/rs/zerolog"
 	"google.golang.org/grpc"
-	"rpc-learn/lib/trace"
+	"rpc_learn/lib/trace"
 	"strings"
 )
 

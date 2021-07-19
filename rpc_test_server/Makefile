@@ -1,7 +1,7 @@
 dump:
 	pg_dump \
 		--create --schema-only \
-		--file="${GOPATH}/src/rpc-learn/migration/01_test_db.sql" \
+		--file="${GOPATH}/src/rpc_learn/migration/01_test_db.sql" \
 		--dbname="test" --host="localhost" --port="5432" --username="postgres"
 
 xo:
@@ -12,26 +12,26 @@ xo:
 
 proto:
 	protoc \
-		-I="${GOPATH}/rpc-learn/rpc_test_server" \
+		-I="${GOPATH}/src/rpc_learn/rpc_test_server/pkg" \
 		--go_out=plugins=grpc:. \
 		test_server.proto
 
 .PHONY crypto:
 	openssl genrsa \
-		-out "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server_rsa.key" 2048
+		-out "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server_rsa.key" 2048
 
 	openssl req  \
 		-new -x509 -sha256 \
-		-key "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server_rsa.key" \
-		-out "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server.csr"
+		-key "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server_rsa.key" \
+		-out "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server.csr"
 
 	openssl x509 -x509toreq -days 365 \
-		-in "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server.csr" \
-		-signkey "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server_rsa.key" \
-		 -out "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server.req"
+		-in "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server.csr" \
+		-signkey "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server_rsa.key" \
+		 -out "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server.req"
 
 	openssl x509 \
 		-req -days 365 \
-		-in "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server.req" \
-		-signkey "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server_rsa.key" \
-		-out "${GOPATH}/rpc-learn/rpc_test_server/internal/crypto/server.crt"
+		-in "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server.req" \
+		-signkey "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server_rsa.key" \
+		-out "${GOPATH}/rpc_learn/rpc_test_server/internal/crypto/server.crt"

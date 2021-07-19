@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
-	"rpc-learn/rpc_test_server/pb"
+	pb2 "rpc_learn/rpc_test_server/pkg/pb"
 	"testing"
 	"time"
 )
 
 func TestHello(t *testing.T) {
 
-	req := pb.ReqTestSeyHello{
+	req := pb2.ReqTestSeyHello{
 		Name: "Vladimir",
 	}
 
