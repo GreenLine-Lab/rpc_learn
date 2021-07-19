@@ -52,7 +52,11 @@ func (dao *UserDaoGorm) Create(user *models.User) error {
 }
 
 func (dao *UserDaoGorm) Reed(user *models.User) error {
-	panic("implement me")
+	if user == nil {
+		return errors.New("empty user pointer")
+	}
+
+	return dao.GORM().Table(user.Table()).First(&user, user.GetFilter()).Error
 }
 
 func (dao *UserDaoGorm) Update(user *models.User) error {

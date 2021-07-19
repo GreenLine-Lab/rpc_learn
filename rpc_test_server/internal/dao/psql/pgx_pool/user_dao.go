@@ -61,8 +61,31 @@ func (dao *UserDaoPgxPool) Create(u *models.User) error {
 	return nil
 }
 
-func (dao *UserDaoPgxPool) Reed(user *models.User) error {
-	panic("implement me")
+func (dao *UserDaoPgxPool) Reed(u *models.User) error {
+	if u == nil {
+		return errors.New("empty user pointer")
+	}
+
+	sqlstr := `SELECT * FROM public.user `
+	filter := u.GetFilter()
+	if len(filter) == 0 {
+		return errors.New("empty where parameters")
+	}
+
+	sqlstr += "WHERE " + filter
+
+	conn, err := dao.Conn()
+	if err != nil {
+		return err
+	}
+	defer conn.Release()
+
+	err = conn.QueryRow(context.Background(), sqlstr).Scan(&u.Id, &u.Uuid, &u.NickName, &u.Login, &u.Password, &u.Rule, &u.Blocked, &u.CreateAt, &u.BlockedAt, &u.UpdateAt)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (dao *UserDaoPgxPool) Update(user *models.User) error {
