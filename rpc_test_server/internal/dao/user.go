@@ -13,9 +13,9 @@ import (
 
 type UserDao interface {
 	Create(user *models.User) error
-	Reed(user *models.User) error
-	Update(user *models.User) error
-	Delete(user *models.User) error
+	Reed(user *models.User, where ...interface{}) error
+	Update(user *models.User, where ...interface{}) error
+	Delete(user *models.User, where ...interface{}) error
 
 	Close() error
 }

@@ -62,18 +62,20 @@ func (dao *UserDaoPgx) Create(u *models.User) error {
 	return nil
 }
 
-func (dao *UserDaoPgx) Reed(u *models.User) error {
+func (dao *UserDaoPgx) Reed(u *models.User, where ...interface{}) error {
 	if u == nil {
 		return errors.New("empty user pointer")
 	}
 
-	sqlstr := `SELECT * FROM public.user `
-	filter := u.GetFilter()
-	if len(filter) == 0 {
-		return errors.New("empty where parameters")
+	if where == nil {
+		return errors.New("empty where parameter")
 	}
 
-	sqlstr += "WHERE " + filter
+	if len(where) != 1 {
+		return errors.New("incorrect where parameter")
+	}
+
+	sqlstr := `SELECT * FROM public.user ` + u.GetFilter(where...)
 
 	conn, err := dao.Conn()
 	if err != nil {
@@ -89,10 +91,10 @@ func (dao *UserDaoPgx) Reed(u *models.User) error {
 	return nil
 }
 
-func (dao *UserDaoPgx) Update(user *models.User) error {
+func (dao *UserDaoPgx) Update(user *models.User, where ...interface{}) error {
 	panic("implement me")
 }
 
-func (dao *UserDaoPgx) Delete(user *models.User) error {
+func (dao *UserDaoPgx) Delete(user *models.User, where ...interface{}) error {
 	panic("implement me")
 }

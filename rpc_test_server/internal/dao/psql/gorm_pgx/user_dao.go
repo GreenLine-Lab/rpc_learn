@@ -51,18 +51,22 @@ func (dao *UserDaoGorm) Create(user *models.User) error {
 	return dao.GORM().Table(user.Table()).Create(&user).Error
 }
 
-func (dao *UserDaoGorm) Reed(user *models.User) error {
+func (dao *UserDaoGorm) Reed(user *models.User, where ...interface{}) error {
 	if user == nil {
 		return errors.New("empty user pointer")
 	}
 
-	return dao.GORM().Table(user.Table()).First(&user, user.GetFilter()).Error
+	if where == nil {
+		return errors.New("empty where parameters")
+	}
+
+	return dao.GORM().Table(user.Table()).First(&user, where...).Error
 }
 
-func (dao *UserDaoGorm) Update(user *models.User) error {
+func (dao *UserDaoGorm) Update(user *models.User, where ...interface{}) error {
 	panic("implement me")
 }
 
-func (dao *UserDaoGorm) Delete(user *models.User) error {
+func (dao *UserDaoGorm) Delete(user *models.User, where ...interface{}) error {
 	panic("implement me")
 }

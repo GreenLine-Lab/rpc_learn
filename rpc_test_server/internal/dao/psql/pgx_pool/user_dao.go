@@ -61,7 +61,7 @@ func (dao *UserDaoPgxPool) Create(u *models.User) error {
 	return nil
 }
 
-func (dao *UserDaoPgxPool) Reed(u *models.User) error {
+func (dao *UserDaoPgxPool) Reed(u *models.User, where ...interface{}) error {
 	if u == nil {
 		return errors.New("empty user pointer")
 	}
@@ -88,10 +88,10 @@ func (dao *UserDaoPgxPool) Reed(u *models.User) error {
 	return nil
 }
 
-func (dao *UserDaoPgxPool) Update(user *models.User) error {
+func (dao *UserDaoPgxPool) Update(user *models.User, where ...interface{}) error {
 	panic("implement me")
 }
 
-func (dao *UserDaoPgxPool) Delete(user *models.User) error {
+func (dao *UserDaoPgxPool) Delete(user *models.User, where ...interface{}) error {
 	panic("implement me")
 }

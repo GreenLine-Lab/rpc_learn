@@ -19,32 +19,27 @@ func (u User) Table() string {
 	return "user"
 }
 
-func (u *User) GetFilter() string {
-	var where string
+func (u *User) GetFilter(where ...interface{}) string {
+	var filter string
 
-	if u == nil {
-		return where
+	whereMap, ok := where[0].(map[string]interface{})
+	if !ok {
+		return filter
 	}
 
-	if u.Id != 0 {
-		where += fmt.Sprintf("id = %d", u.Id)
-		return where
+	if len(whereMap) == 0 {
+		return filter
 	}
 
-	if len(u.Uuid) != 0 {
-		where += "uuid = '" + u.Uuid + "'"
-		return where
+	filter += ` WHERE `
+	for key, value := range whereMap {
+		vString, ok := value.(string)
+		if ok {
+			filter += "AND " + key + " = " + fmt.Sprintf("'%s'", vString)
+		} else {
+			filter += "AND " + key + " = " + fmt.Sprintf("%v", value)
+		}
 	}
 
-	if len(u.NickName) != 0 {
-		where += "nick_name = '" + u.NickName + "'"
-		return where
-	}
-
-	if len(u.Login) != 0 {
-		where += "login = '" + u.Login + "'"
-		return where
-	}
-
-	return where
+	return filter
 }
